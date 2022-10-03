@@ -3,8 +3,8 @@ namespace SpaceInvaders.Engine.Game;
 public interface IGame
 {
     IApplication Application { get; }
-    IWindow Window => this.Application.Window;
-    IRenderer Renderer => this.Application.Renderer;
+    IWindow Window { get; }
+    IRenderer Renderer { get; }
     
     public void Init();
     public void Update(float deltaTime);

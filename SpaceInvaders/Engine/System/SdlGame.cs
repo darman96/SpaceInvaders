@@ -5,7 +5,9 @@ namespace SpaceInvaders.Engine.System;
 public abstract class SdlGame : IGame
 {
     public IApplication Application => this.sdlApplication;
-    
+    public IWindow Window => this.sdlApplication.Window;
+    public IRenderer Renderer => this.sdlApplication.Renderer;
+
     private readonly SdlApplication sdlApplication;
 
     protected SdlGame(WindowProps props)
