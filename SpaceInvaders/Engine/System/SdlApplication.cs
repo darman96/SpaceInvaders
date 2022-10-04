@@ -8,11 +8,11 @@ public class SdlApplication : IApplication
     public IWindow Window => this.sdlWindow;
     public IRenderer Renderer => this.sdlRenderer;
 
-    private readonly IGame game;
+    private readonly SdlGame game;
     private readonly SdlWindow sdlWindow;
     private readonly SdlRenderer sdlRenderer;
 
-    public SdlApplication(WindowProps windowProps, IGame game)
+    public SdlApplication(WindowProps windowProps, SdlGame game)
     {
         var windowHandle = SDL.SDL_CreateWindow(
             windowProps.Title,
@@ -36,7 +36,7 @@ public class SdlApplication : IApplication
 
     public void Run()
     {
-        this.game.Init();
+        this.game.Initialize(this);
         while (!this.sdlWindow.ShouldClose())
         {
             this.sdlWindow.PollEvents();

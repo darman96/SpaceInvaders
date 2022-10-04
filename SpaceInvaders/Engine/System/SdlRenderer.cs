@@ -23,6 +23,9 @@ internal class SdlRenderer : IRenderer
         SDL_DestroyRenderer(this.rendererHandle);
     }
 
+    public void DrawRect(Rect rect, Color color, bool fill)
+         => this.DrawRect(rect.Position, rect.Size, color, fill);
+
     public void DrawRect(Vector2I position, Vector2I size, Color color, bool fill)
     {
         var rect = new SDL_Rect

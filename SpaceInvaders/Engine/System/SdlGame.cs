@@ -2,13 +2,15 @@ using SpaceInvaders.Engine.Game;
 
 namespace SpaceInvaders.Engine.System;
 
-public abstract class SdlGame : IGame
+public abstract class SdlGame : Actor
 {
-    public IApplication Application => this.sdlApplication;
     public IWindow Window => this.sdlApplication.Window;
     public IRenderer Renderer => this.sdlApplication.Renderer;
+    
 
     private readonly SdlApplication sdlApplication;
+
+    private readonly Dictionary<string, Actor> actorsByName = new();
 
     protected SdlGame(WindowProps props)
     {
@@ -17,8 +19,5 @@ public abstract class SdlGame : IGame
 
     public void Run() 
         => this.sdlApplication.Run();
-
-    public abstract void Init();
-    public abstract void Update(float deltaTime);
-    public abstract void Render();
+    
 }

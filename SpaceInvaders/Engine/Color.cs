@@ -7,6 +7,9 @@ public struct Color
     public int B { get; set; }
     public int A { get; set; }
 
+    public static Color White()
+        => new Color(255, 255, 255);
+    
     public Color(int r, int g, int b, int a = 255)
     {
         this.R = r;
