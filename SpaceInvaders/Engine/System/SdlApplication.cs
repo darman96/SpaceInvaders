@@ -8,10 +8,12 @@ public class SdlApplication : IApplication
 {
     public IWindow Window => this.sdlWindow;
     public IRenderer Renderer => this.sdlRenderer;
+    public IKeyState KeyState => this.sdlKeyState;
 
     private readonly SdlGame game;
     private readonly SdlWindow sdlWindow;
     private readonly SdlRenderer sdlRenderer;
+    private readonly SdlKeyState sdlKeyState;
     
     private float DeltaTime
     {
@@ -52,7 +54,8 @@ public class SdlApplication : IApplication
         
         this.sdlWindow = new SdlWindow(windowHandle, rendererHandle);
         this.sdlRenderer = new SdlRenderer(rendererHandle);
-
+        this.sdlKeyState = new SdlKeyState();
+        
         this.game = game;
     }
 
@@ -62,6 +65,7 @@ public class SdlApplication : IApplication
         while (!this.sdlWindow.ShouldClose())
         {
             this.sdlWindow.PollEvents();
+            this.sdlKeyState.Update();
             this.game.Update(this.DeltaTime);
             
             this.sdlWindow.Clear();
@@ -70,7 +74,7 @@ public class SdlApplication : IApplication
                 $"FPS:{(int)(60f / this.DeltaTime)}", 
                 new Vector2F(10, 5),
                 28,
-                new Font("SpaceMission.otf"),
+                new SdlFont("SpaceMission.otf"),
                 Color.White());
             
             this.game.Render();

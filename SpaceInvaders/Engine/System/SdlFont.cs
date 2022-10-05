@@ -3,13 +3,13 @@ using SDL2;
 
 namespace SpaceInvaders.Engine.System;
 
-public class Font
+public class SdlFont
 {
     private GCHandle fontBufferHandle;
     private IntPtr fontBufferPointer;
     private readonly int bufferSize;
 
-    public Font(string name)
+    public SdlFont(string name)
     {
         var fontBytes = EmbeddedResourceLoader.Load(name);
         this.bufferSize = fontBytes.Length;
@@ -17,7 +17,7 @@ public class Font
         this.fontBufferPointer = this.fontBufferHandle.AddrOfPinnedObject();
     }
 
-    ~Font()
+    ~SdlFont()
     {
         if (this.fontBufferHandle.IsAllocated)
             this.fontBufferHandle.Free();

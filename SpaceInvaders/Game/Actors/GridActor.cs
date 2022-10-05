@@ -35,6 +35,7 @@ public class GridActor : Actor
     private Direction currentDirection = Direction.Right;
 
     private readonly InvaderActor[] invaders = new InvaderActor[Columns * Rows];
+    private PlayerActor? player;
 
     public override void OnInitialize()
     {
@@ -47,6 +48,8 @@ public class GridActor : Actor
         this.gridColor = Color.White();
 
         this.CreateInvaders();
+        this.player = new PlayerActor((int)gridSize.X);
+        this.RegisterActor(this.player, "Player");
     }
 
     public override void OnUpdate(float deltaTime)

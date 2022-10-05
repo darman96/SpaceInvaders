@@ -46,11 +46,27 @@ public abstract class Actor
         return actor;
     }
 
+    public void RegisterActor(Actor actor, string name)
+    {
+        if (this.actors.ContainsKey(name))
+            throw new Exception($"Actor with name {name} already exits!");
+        
+        this.actors[name] = actor;
+    }
+
     public void RemoveActor(string name)
     {
         if (!this.actors.ContainsKey(name))
             throw new Exception($"Actor with name {name} does not exist!");
 
         this.actors.Remove(name);
+    }
+
+    public void RemoveActor(Actor actor)
+    {
+        if (!this.actors.ContainsValue(actor))
+            throw new Exception("Actor does not exist!");
+        
+        this.actors.Remove(this.actors.Single(x => x.Value == actor).Key);
     }
 }

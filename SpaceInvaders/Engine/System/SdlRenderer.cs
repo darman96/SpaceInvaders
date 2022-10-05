@@ -49,9 +49,17 @@ internal class SdlRenderer : IRenderer
         this.setColor(currentColor);
     }
 
-    public void RenderText(string text, Vector2F position, int size, Font font, Color color)
+    public void DrawLine(Vector2F start, Vector2F end, Color color)
     {
-        var fontHandle = font.GetFontPointer(size);
+        this.withColor(color, () =>
+            {
+                SDL_RenderDrawLineF(this.rendererHandle, start.X, start.Y, end.X, end.Y);
+            });
+    }
+
+    public void RenderText(string text, Vector2F position, int size, SdlFont sdlFont, Color color)
+    {
+        var fontHandle = sdlFont.GetFontPointer(size);
         var texture = this.GetTextureFromText(text, fontHandle, color);
         SDL_ttf.TTF_SizeText(fontHandle, text, out var width, out var height);
         var rect = new SDL_FRect
@@ -65,9 +73,9 @@ internal class SdlRenderer : IRenderer
         SDL_RenderCopyF(this.rendererHandle, texture, IntPtr.Zero, ref rect);
     }
 
-    public void RenderTextCentered(string text, Vector2F position, int size, Font font, Color color)
+    public void RenderTextCentered(string text, Vector2F position, int size, SdlFont sdlFont, Color color)
     {
-        var fontHandle = font.GetFontPointer(size);
+        var fontHandle = sdlFont.GetFontPointer(size);
         var texture = this.GetTextureFromText(text, fontHandle, color);
         
         SDL_ttf.TTF_SizeText(fontHandle, text, out var width, out var height);

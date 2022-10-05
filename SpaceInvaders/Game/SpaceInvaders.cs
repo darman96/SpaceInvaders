@@ -1,4 +1,6 @@
+using SDL2;
 using SpaceInvaders.Engine;
+using SpaceInvaders.Engine.Game;
 using SpaceInvaders.Engine.Math;
 using SpaceInvaders.Engine.System;
 using SpaceInvaders.Game.Actors;
@@ -17,11 +19,12 @@ public class SpaceInvaders : SdlGame
     public override void OnInitialize()
     {
         this.RegisterActor<GridActor>("WorldGrid");
-        this.RegisterActor<PlayerActor>("Player");
     }
 
     public override void OnUpdate(float deltaTime)
     {
+        if (this.Application!.KeyState.IsKeyPressed(KeyCode.Escape))
+            System.Environment.Exit(0);
     }
 
     public override void OnRender()
@@ -29,8 +32,10 @@ public class SpaceInvaders : SdlGame
         this.Renderer.RenderTextCentered(
             "SpaceInvaders",
             this.titlePosition,
-            48,
-            new Font("SpaceMission.otf"),
+            52,
+            new SdlFont("SpaceMission.otf"),
             Color.White());
+        
+        SDL.SDL_Blit
     }
 }
