@@ -19,10 +19,9 @@ public class SdlFont
 
     ~SdlFont()
     {
-        if (this.fontBufferHandle.IsAllocated)
-            this.fontBufferHandle.Free();
+        this.fontBufferHandle.Free();
     }
-
+    
     public IntPtr GetFontPointer(int size)
     {
         var sdlBuffer = SDL.SDL_RWFromConstMem(this.fontBufferPointer, this.bufferSize);

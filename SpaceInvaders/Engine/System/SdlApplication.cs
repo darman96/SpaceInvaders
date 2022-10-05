@@ -9,11 +9,14 @@ public class SdlApplication : IApplication
     public IWindow Window => this.sdlWindow;
     public IRenderer Renderer => this.sdlRenderer;
     public IKeyState KeyState => this.sdlKeyState;
-
-    private readonly SdlGame game;
-    private readonly SdlWindow sdlWindow;
-    private readonly SdlRenderer sdlRenderer;
-    private readonly SdlKeyState sdlKeyState;
+    
+    private const float DeltaLowLimit = 0.0167f;
+    private const float DeltaHighLimit = 0.1f;
+    
+    private SdlWindow sdlWindow = default!;
+    private SdlRenderer sdlRenderer = default!;
+    private SdlKeyState sdlKeyState = default!;
+    private SdlFont fpsCounterFont = default!;
     
     private float DeltaTime
     {
@@ -31,12 +34,11 @@ public class SdlApplication : IApplication
             };
         }
     }
-
-    private const float DeltaLowLimit = 0.0167f;
-    private const float DeltaHighLimit = 0.1f;
     private long lastTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
-    public SdlApplication(WindowProps windowProps, SdlGame game)
+    private bool isInitialized = false;
+
+    public void Initialize(WindowProps windowProps)
     {
         var windowHandle = SDL.SDL_CreateWindow(
             windowProps.Title,
@@ -55,30 +57,28 @@ public class SdlApplication : IApplication
         this.sdlWindow = new SdlWindow(windowHandle, rendererHandle);
         this.sdlRenderer = new SdlRenderer(rendererHandle);
         this.sdlKeyState = new SdlKeyState();
-        
-        this.game = game;
+        this.fpsCounterFont = new SdlFont("Assets.SpaceMission.otf");
     }
 
     public void Run()
     {
-        this.game.Initialize(this);
+        if (!isInitialized)
+            throw new Exception("Application was not initialized!");
+        
         while (!this.sdlWindow.ShouldClose())
         {
             this.sdlWindow.PollEvents();
             this.sdlKeyState.Update();
-            this.game.Update(this.DeltaTime);
-            
+
             this.sdlWindow.Clear();
             
             this.Renderer.RenderText(
                 $"FPS:{(int)(60f / this.DeltaTime)}", 
                 new Vector2F(10, 5),
                 28,
-                new SdlFont("SpaceMission.otf"),
+                fpsCounterFont,
                 Color.White());
-            
-            this.game.Render();
-            
+
             this.sdlRenderer.Present();
         }
         

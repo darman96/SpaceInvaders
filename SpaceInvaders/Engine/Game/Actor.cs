@@ -1,3 +1,4 @@
+using SpaceInvaders.Engine.Math;
 using SpaceInvaders.Util.Extensions;
 
 namespace SpaceInvaders.Engine.Game;
@@ -5,6 +6,7 @@ namespace SpaceInvaders.Engine.Game;
 public abstract class Actor
 {
     public Actor? Parent { get; private set; }
+    public Transform? Transform { get; private set; }
     
     protected IApplication? Application = default;
     
