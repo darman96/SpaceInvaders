@@ -14,7 +14,13 @@
 
     <ItemGroup>
       <None Remove="Assets\NewFile1.txt" />
-      <EmbeddedResource Include="Assets\NewFile1.txt" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Assets\SpaceMission.otf" />
+      <EmbeddedResource Include="Assets\SpaceMission.otf" />
+      <None Remove="Assets\OpenSans.ttf" />
+      <EmbeddedResource Include="Assets\OpenSans.ttf" />
     </ItemGroup>
 
 </Project>

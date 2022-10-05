@@ -1,5 +1,6 @@
 using SDL2;
 using SpaceInvaders.Engine.Game;
+using SpaceInvaders.Engine.Math;
 
 namespace SpaceInvaders.Engine.System;
 
@@ -11,6 +12,27 @@ public class SdlApplication : IApplication
     private readonly SdlGame game;
     private readonly SdlWindow sdlWindow;
     private readonly SdlRenderer sdlRenderer;
+    
+    private float DeltaTime
+    {
+        get
+        {
+            var currentTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+            var delta = (currentTime - this.lastTime) / 1000f;
+            this.lastTime = currentTime;
+
+            return delta switch
+            {
+                < DeltaLowLimit => DeltaLowLimit,
+                > DeltaHighLimit => DeltaHighLimit,
+                _ => delta
+            };
+        }
+    }
+
+    private const float DeltaLowLimit = 0.0167f;
+    private const float DeltaHighLimit = 0.1f;
+    private long lastTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
     public SdlApplication(WindowProps windowProps, SdlGame game)
     {
@@ -40,9 +62,17 @@ public class SdlApplication : IApplication
         while (!this.sdlWindow.ShouldClose())
         {
             this.sdlWindow.PollEvents();
-            this.game.Update(1.0f);
+            this.game.Update(this.DeltaTime);
             
             this.sdlWindow.Clear();
+            
+            this.Renderer.RenderText(
+                $"FPS:{(int)(60f / this.DeltaTime)}", 
+                new Vector2F(10, 5),
+                28,
+                new Font("SpaceMission.otf"),
+                Color.White());
+            
             this.game.Render();
             
             this.sdlRenderer.Present();

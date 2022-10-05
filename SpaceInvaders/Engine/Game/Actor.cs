@@ -35,13 +35,15 @@ public abstract class Actor
         this.actors.Values.ForEach(actor => actor.Render());
     }
     
-    public void RegisterActor<TActor>(string name) 
+    public TActor RegisterActor<TActor>(string name) 
         where TActor : Actor, new()
     {
         if (this.actors.ContainsKey(name))
             throw new Exception($"Actor with name {name} already exits!");
 
-        this.actors[name] = new TActor();
+        var actor = new TActor();
+        this.actors[name] = actor;
+        return actor;
     }
 
     public void RemoveActor(string name)

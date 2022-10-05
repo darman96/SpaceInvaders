@@ -13,13 +13,13 @@ public class PlayerActor : Actor
     public override void OnInitialize()
     {
         var windowSize = this.Application!.Window.Size;
-        var playerPosition = new Vector2I(
-            (windowSize.X - this.playerSize) / 2,
+        var playerPosition = new Vector2F(
+            (windowSize.X - this.playerSize) / 2f,
             windowSize.Y - this.bottomOffset - this.playerSize);
 
         this.playerRect = new Rect(
             playerPosition,
-            new Vector2I(this.playerSize, this.playerSize));
+            new Vector2F(this.playerSize, this.playerSize));
     }
 
     public override void OnUpdate(float deltaTime)
